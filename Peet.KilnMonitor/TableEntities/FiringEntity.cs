@@ -40,7 +40,11 @@ namespace Peet.KilnMonitor.TableEntities
         /// <summary>
         /// Gets or sets the kiln ID.
         /// </summary>
-        public string KilnId { get; set; }
+        public string KilnId
+        {
+            get { return this.PartitionKey; }
+            set { this.PartitionKey = value; }
+        }
 
         /// <summary>
         /// Gets the public contract.

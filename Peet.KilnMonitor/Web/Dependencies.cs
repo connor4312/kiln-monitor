@@ -24,7 +24,8 @@ namespace Peet.KilnMonitor.Web
 
                 return Dependencies.containerInstance;
             }
-        }4
+        }
+        
         private static IContainer BuildContainer()
         {
             var builder = new ContainerBuilder();

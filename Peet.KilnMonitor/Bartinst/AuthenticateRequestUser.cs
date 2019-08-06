@@ -6,7 +6,7 @@ namespace Peet.KilnMonitor.Bartinst
     /// Inner object of the <see cref="AuthenticateRequest"/>
     /// </summary>
     [DataContract]
-    public class AuthenticateRequestUser
+    internal class AuthenticateRequestUser
     {
         /// <summary>
         /// Gets or sets the email to authenticate.

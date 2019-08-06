@@ -78,7 +78,7 @@ namespace Peet.KilnMonitor.Bartinst
             try
             {
                 using (var response = await this.httpClient.GetAsync(
-                    $"{BartinstApi.BaseUrl}/kiln_controllers.json?user_email={email}&user_token={authToken}",))
+                    $"{BartinstApi.BaseUrl}/kiln_controllers.json?user_email={email}&user_token={authToken}"))
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
