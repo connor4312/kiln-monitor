@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Peet.KilnMonitor.Contracts
+﻿namespace Peet.KilnMonitor.Contracts
 {
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Inner object of the <see cref="AuthenticateRequest"/>
     /// </summary>

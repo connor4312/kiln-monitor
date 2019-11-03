@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Peet.KilnMonitor.Contracts
+﻿namespace Peet.KilnMonitor.Contracts
 {
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Status returned from the Bartinst API on the kiln.
     /// </summary>
@@ -12,10 +10,10 @@ namespace Peet.KilnMonitor.Contracts
     public class KilnStatus
     {
         /// <summary>
-        /// Gets or sets the kiln human readable name.
+        /// Gets or sets a map of kiln firing data.
         /// </summary>
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
+        [DataMember(Name = "firing")]
+        public IDictionary<string, object> Firing { get; set; }
 
         /// <summary>
         /// Gets or sets the kiln ID.
@@ -30,15 +28,15 @@ namespace Peet.KilnMonitor.Contracts
         public string Mode { get; set; }
 
         /// <summary>
+        /// Gets or sets the kiln human readable name.
+        /// </summary>
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the kiln operational mode.
         /// </summary>
         [DataMember(Name = "op_mode")]
         public string OperationalMode { get; set; }
-
-        /// <summary>
-        /// Gets or sets a map of kiln firing data.
-        /// </summary>
-        [DataMember(Name = "firing")]
-        public IDictionary<string, object> Firing { get; set; }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Peet.KilnMonitor.TableEntities
+﻿namespace Peet.KilnMonitor.TableEntities
 {
     public static class Tables
     {

@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-
-namespace Peet.KilnMonitor.Bartinst
+﻿namespace Peet.KilnMonitor.Bartinst
 {
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Inner object of the <see cref="AuthenticateRequest"/>
     /// </summary>

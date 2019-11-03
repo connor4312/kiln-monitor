@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
-using Peet.KilnMonitor.Bartinst;
-
-namespace Peet.KilnMonitor.Web
+﻿namespace Peet.KilnMonitor.Web
 {
+    using Autofac;
+    using Peet.KilnMonitor.Bartinst;
+
     class Dependencies
     {
         private static IContainer containerInstance;
@@ -25,7 +22,7 @@ namespace Peet.KilnMonitor.Web
                 return Dependencies.containerInstance;
             }
         }
-        
+
         private static IContainer BuildContainer()
         {
             var builder = new ContainerBuilder();

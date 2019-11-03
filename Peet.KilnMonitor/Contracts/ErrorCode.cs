@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Peet.KilnMonitor.Contracts
+﻿namespace Peet.KilnMonitor.Contracts
 {
     /// <summary>
     /// Error codes returned from the service.
@@ -23,5 +19,15 @@ namespace Peet.KilnMonitor.Contracts
         /// Invalid JSON body.
         /// </summary>
         InvalidRequestBody,
+
+        /// <summary>
+        /// Kiln not found.
+        /// </summary>
+        KilnNotFound,
+
+        /// <summary>
+        /// Firing not found.
+        /// </summary>
+        FiringNotFound,
     }
 }

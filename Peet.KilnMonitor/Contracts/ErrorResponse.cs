@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Peet.KilnMonitor.Contracts
+﻿namespace Peet.KilnMonitor.Contracts
 {
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Standard error response returned from the API.
     /// </summary>
@@ -36,6 +34,12 @@ namespace Peet.KilnMonitor.Contracts
         public uint ErrorCode { get; }
 
         /// <summary>
+        /// Gets or sets the any additional headers to use for this response.
+        /// </summary>
+        [IgnoreDataMember]
+        public IDictionary<string, string> Headers { get; set; }
+
+        /// <summary>
         /// Gets or sets the human-readable error message.
         /// </summary>
         [DataMember(Name = "message", IsRequired = false)]
@@ -46,11 +50,5 @@ namespace Peet.KilnMonitor.Contracts
         /// </summary>
         [IgnoreDataMember]
         public HttpStatusCode StatusCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the any additional headers to use for this response.
-        /// </summary>
-        [IgnoreDataMember]
-        public IDictionary<string, string> Headers { get; set; }
     }
 }

@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Peet.KilnMonitor.Contracts;
-
-namespace Peet.KilnMonitor.Bartinst
+﻿namespace Peet.KilnMonitor.Bartinst
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json;
+    using Peet.KilnMonitor.Contracts;
+
     /// <summary>
     /// Implementation of the Bartinst API.
     /// </summary>
     public class BartinstApi : IBartinstApi
     {
         private const string BaseUrl = "https://www.bartinst.com";
+        private readonly HttpClient httpClient = new HttpClient();
 
         private readonly JsonSerializer serializer = new JsonSerializer();
-        private readonly HttpClient httpClient = new HttpClient();
 
         /// <summary>
         /// Attempts to authenticate the given user.
@@ -28,18 +28,19 @@ namespace Peet.KilnMonitor.Bartinst
         /// <returns></returns>
         public async Task<AuthenticateResponse> AuthenticateAsync(string email, string password)
         {
-            var request = JsonConvert.SerializeObject(new AuthenticateRequest()
-            {
-                User = new AuthenticateRequestUser()
+            string request = JsonConvert.SerializeObject(
+                new AuthenticateRequest()
                 {
-                    Email = email,
-                    Password = password
-                }
-            });
+                    User = new AuthenticateRequestUser()
+                    {
+                        Email = email,
+                        Password = password
+                    }
+                });
 
             try
             {
-                using (var response = await this.httpClient.PostAsync(
+                using (HttpResponseMessage response = await this.httpClient.PostAsync(
                     $"{BartinstApi.BaseUrl}/users/login",
                     new StringContent(request, Encoding.UTF8, "application/json")))
                 {
@@ -53,7 +54,7 @@ namespace Peet.KilnMonitor.Bartinst
                         throw new ErrorResponseException(ErrorCode.UnknownRemoteError, await response.Content.ReadAsStringAsync());
                     }
 
-                    using (var s = await response.Content.ReadAsStreamAsync())
+                    using (Stream s = await response.Content.ReadAsStreamAsync())
                     using (var sr = new StreamReader(s))
                     using (var reader = new JsonTextReader(sr))
                     {
@@ -77,7 +78,7 @@ namespace Peet.KilnMonitor.Bartinst
         {
             try
             {
-                using (var response = await this.httpClient.GetAsync(
+                using (HttpResponseMessage response = await this.httpClient.GetAsync(
                     $"{BartinstApi.BaseUrl}/kiln_controllers.json?user_email={email}&user_token={authToken}"))
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
@@ -85,7 +86,7 @@ namespace Peet.KilnMonitor.Bartinst
                         throw new ErrorResponseException(ErrorCode.UnknownRemoteError, await response.Content.ReadAsStringAsync());
                     }
 
-                    using (var s = await response.Content.ReadAsStreamAsync())
+                    using (Stream s = await response.Content.ReadAsStreamAsync())
                     using (var sr = new StreamReader(s))
                     using (var reader = new JsonTextReader(sr))
                     {

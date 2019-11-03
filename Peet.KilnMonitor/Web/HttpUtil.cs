@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Peet.KilnMonitor.Contracts;
-
-namespace Peet.KilnMonitor.Web
+﻿namespace Peet.KilnMonitor.Web
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Primitives;
+    using Newtonsoft.Json;
+    using Peet.KilnMonitor.Contracts;
+
     /// <summary>
     /// Extensions for the asp.net <see cref="HttpRequest"/>.
     /// </summary>
@@ -17,6 +16,18 @@ namespace Peet.KilnMonitor.Web
     {
         private const string ContinuationTokenParam = "ct";
         private static readonly JsonSerializer Serializer = new JsonSerializer();
+
+        /// <summary>
+        /// Gets any continuation token presented in the request.
+        /// </summary>
+        /// <param name="request">Incoming request</param>
+        /// <returns>Continuation token</returns>
+        public static string GetContinuationToken(this HttpRequest request)
+        {
+            return request.Query.TryGetValue(HttpUtil.ContinuationTokenParam, out StringValues continuation)
+                ? (string)continuation
+                : null;
+        }
 
         /// <summary>
         /// Gets the user ID making the request.
@@ -50,25 +61,14 @@ namespace Peet.KilnMonitor.Web
         }
 
         /// <summary>
-        /// Gets any continuation token presented in the request.
-        /// </summary>
-        /// <param name="request">Incoming request</param>
-        /// <returns>Continuation token</returns>
-        public static string GetContinuationToken(this HttpRequest request)
-        {
-            return request.Query.TryGetValue(HttpUtil.ContinuationTokenParam, out var continuation)
-                ? (string)continuation
-                : null;
-        }
-
-        /// <summary>
         /// Gets the continuation token in the response headers.
         /// </summary>
         /// <param name="token">Token to set</param>
         public static void SetContinuationToken(this HttpRequest request, string token)
         {
-            request.HttpContext.Response.Headers.Add("Link", $"<{request.Path}?{ContinuationTokenParam}={token}>; rel=\"next\"");
+            request.HttpContext.Response.Headers.Add("Link", $"<{request.Path}?{HttpUtil.ContinuationTokenParam}={token}>; rel=\"next\"");
         }
+
         /// <summary>
         /// Gets any continuation token presented in the request.
         /// </summary>
@@ -78,7 +78,7 @@ namespace Peet.KilnMonitor.Web
         {
             if (error.Headers != null)
             {
-                foreach (var pair in error.Headers)
+                foreach (KeyValuePair<string, string> pair in error.Headers)
                 {
                     request.HttpContext.Response.Headers.Add(pair.Key, pair.Value);
                 }

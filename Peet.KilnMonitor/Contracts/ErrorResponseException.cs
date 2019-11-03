@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-
-namespace Peet.KilnMonitor.Contracts
+﻿namespace Peet.KilnMonitor.Contracts
 {
+    using System;
+    using System.Net;
+
     /// <summary>
     /// Exception thrown when there's an error in the request.
     /// </summary>

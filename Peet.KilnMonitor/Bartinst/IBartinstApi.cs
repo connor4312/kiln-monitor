@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Peet.KilnMonitor.Contracts;
-
-namespace Peet.KilnMonitor.Bartinst
+﻿namespace Peet.KilnMonitor.Bartinst
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Peet.KilnMonitor.Contracts;
+
     public interface IBartinstApi
     {
         /// <summary>

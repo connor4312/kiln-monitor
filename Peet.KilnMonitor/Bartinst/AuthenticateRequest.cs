@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Peet.KilnMonitor.Bartinst
+﻿namespace Peet.KilnMonitor.Bartinst
 {
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// An authentication request in the Bartinst API.
     /// </summary>

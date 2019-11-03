@@ -1,21 +1,17 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Peet.KilnMonitor.Contracts;
-using Peet.KilnMonitor.Web;
-using Peet.KilnMonitor.Bartinst;
-using Autofac;
-using Peet.KilnMonitor.TableEntities;
-using Microsoft.WindowsAzure.Storage.Table;
-
 namespace Peet.KilnMonitor
 {
+    using System.Threading.Tasks;
+    using Autofac;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.WindowsAzure.Storage.Table;
+    using Peet.KilnMonitor.Bartinst;
+    using Peet.KilnMonitor.Contracts;
+    using Peet.KilnMonitor.TableEntities;
+    using Peet.KilnMonitor.Web;
+
     /// <summary>
     /// Updates the bartinst credentials for the current user.
     /// </summary>
@@ -23,20 +19,24 @@ namespace Peet.KilnMonitor
     {
         [FunctionName(nameof(UpdateCredentials))]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "/api/authenticate")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "/api/authenticate")]
+            HttpRequest req,
             [Table(Tables.Accounts)] CloudTable table)
         {
             try
             {
                 var body = req.ReadBody<Contracts.AuthenticateRequest>();
-                var res = await Dependencies.Container.Resolve<IBartinstApi>().AuthenticateAsync(body.Email, body.Password);
+                AuthenticateResponse res = await Dependencies.Container.Resolve<IBartinstApi>()
+                    .AuthenticateAsync(body.Email, body.Password);
 
-                await table.ExecuteAsync(TableOperation.InsertOrReplace(new AccountEntity()
-                {
-                    UserId = req.GetUserId(),
-                    Email = body.Email,
-                    AuthKey = res.Token,
-                }));
+                await table.ExecuteAsync(
+                    TableOperation.InsertOrReplace(
+                        new AccountEntity()
+                        {
+                            UserId = req.GetUserId(),
+                            Email = body.Email,
+                            AuthKey = res.Token,
+                        }));
 
                 return new NoContentResult();
             }
