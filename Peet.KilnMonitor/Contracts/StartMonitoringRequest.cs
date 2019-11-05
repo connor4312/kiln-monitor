@@ -3,21 +3,21 @@
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Inner object of the <see cref="AuthenticateRequest"/>
+    /// Request sent to the durable function to monitor a firing.
     /// </summary>
     [DataContract]
-    public class AuthenticateRequest
+    public sealed class StartMonitoringRequest
     {
         /// <summary>
-        /// Gets or sets the email to authenticate.
+        /// Gets or sets the email for the user.
         /// </summary>
-        [DataMember(Name = "email", IsRequired = true)]
+        [DataMember(Name = "email")]
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the user password.
+        /// Gets or sets the password for the user.
         /// </summary>
-        [DataMember(Name = "password", IsRequired = true)]
+        [DataMember(Name = "password")]
         public string Password { get; set; }
     }
 }

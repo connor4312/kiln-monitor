@@ -21,13 +21,8 @@
         InvalidRequestBody,
 
         /// <summary>
-        /// Kiln not found.
+        /// User needs to accept terms of service.
         /// </summary>
-        KilnNotFound,
-
-        /// <summary>
-        /// Firing not found.
-        /// </summary>
-        FiringNotFound,
+        NeedsTOS,
     }
 }
